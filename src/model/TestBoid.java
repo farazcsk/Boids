@@ -1,39 +1,35 @@
 package model;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * Each boid represents an individual in the flock. 
+ * Each boids represents an individual in the flock. Test boids provide additional functionality such as:
+ * <ul>
+ * <li>Console logging of events</li>
+ * <li>Boids have optional names</li>
+ * <li>Set boid colour</li>
+ * </ul> 
  * 
- * @author Shaun
- *
+ * 
  */
-public class Boid {
+public class TestBoid extends Boid {
     private Vector2d position;
     private Vector2d velocity;
     private final int speedLimit = 5;
-    private String name = null;
     private int radius = 20;
+    private String name = null;
+    private Color colour;
 
-    /**
-     * Boid is initialised with it's coordinates on the display area. 
-     * 
-     * @param x X Position
-     * @param y	Y Position
-     */
-	public Boid(int x, int y, String n) {
+	public TestBoid(int x, int y, String n, Color c) {
+		super(x, y, n);
 		this.position = new Vector2d(x, y);
 		this.velocity = new Vector2d(0,0);
-		
-		if( n == null) {
-			this.name = n;
-		}
+		this.name = n;
+		this.colour = c;
+    	System.out.println("Boid "+name+" created at: "+position.xPos+" , "+position.yPos);
     }
 	
-	/**
-	 * Returns a Vector2d object with the boids x, y position coordinates
-	 * 
-	 */
 	public Vector2d getPosition() {
 		return position;
 	}
@@ -42,12 +38,6 @@ public class Boid {
 		return velocity;
 	}
 
-    /**
-     * Set the boid velocity
-     *  
-     * @param velocity a Vector2d object with the boids x, y coordinates
-     * 
-     */
 	public void setVelocity(Vector2d velocity) {		
 		if ( velocity.xPos > speedLimit) {
 			velocity.xPos = speedLimit;
@@ -67,14 +57,11 @@ public class Boid {
 		return this.name;
 	}
 
-	/**
-	 * Display the boid on screen
-	 * 
-	 * @param g	Graphics Context
-	 */
 	public void draw(Graphics g) {
+    	System.out.println("boid "+name+" position: "+position.xPos+" , "+position.yPos);
 		int x = (int)this.position.xPos;
     	int y = (int)this.position.yPos;
+    	g.setColor(colour);
     	g.fillOval(x, y, radius, radius);
     }
 
