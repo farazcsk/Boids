@@ -14,11 +14,6 @@ import java.awt.Graphics;
  * 
  */
 public class TestBoid extends Boid {
-    private Vector2d position;
-    private Vector2d velocity;
-    private final int speedLimit = 5;
-    private int radius = 20;
-    private String name = null;
     private Color colour;
 
 	public TestBoid(int x, int y, String n, Color c) {

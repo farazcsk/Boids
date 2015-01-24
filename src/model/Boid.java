@@ -9,11 +9,11 @@ import java.awt.Graphics;
  *
  */
 public class Boid {
-    private Vector2d position;
-    private Vector2d velocity;
-    private final int speedLimit = 5;
-    private String name = null;
-    private int radius = 20;
+	protected Vector2d position;
+    protected Vector2d velocity;
+    protected final int speedLimit = 5;
+    protected String name = null;
+    protected int radius = 10;
 
     /**
      * Boid is initialised with it's coordinates on the display area. 
