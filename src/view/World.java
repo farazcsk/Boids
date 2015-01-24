@@ -11,10 +11,10 @@ import model.Flock;
  *
  */
 public class World extends Canvas {
-	private static Flock flock;
+	private Flock flock;
 	
 	public World() {
-		World.flock = new Flock();
+		this.flock = new Flock();
 	}
 	
 	/**
