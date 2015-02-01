@@ -3,11 +3,14 @@ package model;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Random;
+
+import javafx.scene.canvas.GraphicsContext;
 
 public class Flock {
     private ArrayList<Boid> boids;
-    private int seperation = 15;
-    private double movementFactor = 100;
+    private int seperation = 10;			//Used in rule 2
+    private double movementFactor = 1000; 	//Used in rule 1
 
     public Flock() {
     	boids = new ArrayList<Boid>();
@@ -15,6 +18,15 @@ public class Flock {
 		boids.add(new TestBoid(400, 100, "Red", Color.RED));		
 		boids.add(new TestBoid(700, 100, "Green", Color.GREEN));
 		boids.add(new TestBoid(250, 30, "Blue", Color.BLUE));
+
+		Random rand = new Random();
+		
+		for(int i = 0; i < 15; i++) {
+			int  x = rand.nextInt(1200) + 1;
+			int  y = rand.nextInt(1000) + 1;
+				
+			boids.add(new Boid(x,y, Integer.toString(i)));
+		}
 		
 		System.out.println("Flock size: "+boids.size());
     } // end constructor
@@ -34,17 +46,17 @@ public class Flock {
 		sum = sum.add(v2);
 		sum = sum.add(v3);
 		sum = sum.add(v4);
-		sum = sum.add(v5);
+		//sum = sum.add(v5);
 		
 		cBoid.setVelocity(cBoid.getVelocity().add(sum));	
 		cBoid.setPosition(cBoid.getPosition().add(cBoid.getVelocity()));
 			
 		System.out.print("v1: "+v1.xPos+","+v1.yPos+" | ");
 		System.out.print("v2: "+v2.xPos+","+v2.yPos+" | ");
-		System.out.print("v3: "+v3.xPos+","+v3.yPos+" | ");
-		System.out.print("v4: "+v4.xPos+","+v4.yPos+" | ");
-		System.out.print("v4: "+v5.xPos+","+v5.yPos+" | ");
-		System.out.print("v5: "+v5.xPos+","+v5.yPos+" | ");
+		//System.out.print("v3: "+v3.xPos+","+v3.yPos+" | ");
+		//System.out.print("v4: "+v4.xPos+","+v4.yPos+" | ");
+		//System.out.print("v4: "+v5.xPos+","+v5.yPos+" | ");
+		//System.out.print("v5: "+v5.xPos+","+v5.yPos+" | ");
 		System.out.print("sum: "+sum.xPos+","+sum.yPos+" | ");
 		System.out.println("");
 
@@ -81,17 +93,12 @@ public class Flock {
     			Vector2d aPosition = aBoid.getPosition();
     			Vector2d xD = new Vector2d(aPosition.xPos - cPosition.xPos, aPosition.yPos - cPosition.yPos);
 			
-    			System.out.print("| x.abs:"+Math.abs(xD.xPos)+", y.abs"+Math.abs(xD.yPos) +" | ");			
+    			//System.out.print("| x.abs:"+Math.abs(xD.xPos)+", y.abs"+Math.abs(xD.yPos) +" | ");			
     			if(Math.abs(xD.xPos) < seperation && Math.abs(xD.yPos) < seperation) {	
-				
     				correction = correction.subtract(xD);
     			}
-			
-			if( xD.absY() < seperation ) {
-			
-			}
-			
-		}
+		
+    		}
 	}
 	return correction;
     }
@@ -159,7 +166,7 @@ public class Flock {
      * Paint each boid comprising the flock on screen.
      * @param g
      */
-    public void drawBoids(Graphics g) {
+    public void drawBoids(GraphicsContext g) {
     	for(Boid aBoid : boids) {
     		aBoid.draw(g);
     	}
