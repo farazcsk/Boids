@@ -1,8 +1,7 @@
 package model;
 
-import java.awt.Graphics;
-
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  * Each boid represents an individual in the flock. 
@@ -77,6 +76,7 @@ public class Boid {
 	public void draw(GraphicsContext g) {
 		int x = (int)this.position.xPos;
     	int y = (int)this.position.yPos;
+    	g.setFill(Color.BLACK);
     	g.fillOval(x, y, radius, radius);
     }
 

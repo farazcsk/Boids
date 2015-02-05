@@ -1,7 +1,9 @@
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
+
 
 /**
  * Each boids represents an individual in the flock. Test boids provide additional functionality such as:
@@ -52,11 +54,11 @@ public class TestBoid extends Boid {
 		return this.name;
 	}
 
-	public void draw(Graphics g) {
+	public void draw(GraphicsContext g) {
     	System.out.println("boid "+name+" position: "+position.xPos+" , "+position.yPos);
 		int x = (int)this.position.xPos;
     	int y = (int)this.position.yPos;
-    	g.setColor(colour);
+    	g.setFill(colour);
     	g.fillOval(x, y, radius, radius);
     }
 

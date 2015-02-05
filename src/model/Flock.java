@@ -1,11 +1,12 @@
 package model;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Flock {
     private ArrayList<Boid> boids;
