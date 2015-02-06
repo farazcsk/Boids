@@ -17,13 +17,14 @@ public class Flock {
 		boids.add(new TestBoid(700, 100, "Green", Color.GREEN));
 		boids.add(new TestBoid(250, 30, "Blue", Color.BLUE));
 
-		Random rand = new Random();
+		Random randNum = new Random();
+		RandomName randName = new RandomName();
 		
 		for(int i = 0; i < 15; i++) {
-			int  x = rand.nextInt(1200) + 1;
-			int  y = rand.nextInt(1000) + 1;
+			int  x = randNum.nextInt(1200) + 1;
+			int  y = randNum.nextInt(1000) + 1;
 				
-			boids.add(new Boid(x,y, Integer.toString(i)));
+			boids.add(new Boid(x,y, randName.getName() ));
 		}
 		
 		System.out.println("Flock size: "+boids.size());
@@ -36,7 +37,7 @@ public class Flock {
     public void updateBoidsPostion() {
     	Vector2d v1, v2, v3, v4, v5 = new Vector2d();
     	for (Boid cBoid : boids) {
-			System.out.print("Current boid: "+cBoid.getName()+" | ");
+			System.out.println("Current boid: "+cBoid.getName()+" | ");
 			
 
 		v1 = groupFlock(cBoid);
@@ -158,14 +159,14 @@ public class Flock {
     	Vector2d cPos = cBoid.getPosition();
 
 		if (cPos.xPos < xMin) {
-			 bound.xPos += 10;
+			 bound.xPos += 1;
 		} else if (cPos.xPos > xMax){
-			bound.xPos += -10;
+			bound.xPos += -1;
 		}
 		if (cPos.yPos < yMin) {
-			 bound.yPos += 10;
+			 bound.yPos += 1;
 		} else if (cPos.yPos > yMax){
-			bound.yPos += -10;
+			bound.yPos += -1;
 		}
     	return bound;
     }
