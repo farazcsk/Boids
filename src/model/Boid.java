@@ -4,12 +4,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 /**
- * Each boid represents an individual in the flock. 
+ * Each boid represents an individual in the flock. Displayed on screen as a small coloured circle.  
  * 
  * @author Shaun
  *
  */
 public class Boid {
+	/**
+	 * Vector objects store the x/y coordinates of the boids grid position. 
+	 */
 	protected Vector2d position;
     protected Vector2d velocity;
     protected final int speedLimit = 5;
@@ -26,13 +29,15 @@ public class Boid {
 		this.position = new Vector2d(x, y);
 		this.velocity = new Vector2d(0,0);
 		
-		if( n == null) {
+		if( n != null) {
 			this.name = n;
 		}
     }
 	
 	/**
 	 * Returns a Vector2d object with the boids x, y position coordinates
+	 * 
+	 * @return	Vector2d
 	 * 
 	 */
 	public Vector2d getPosition() {
@@ -59,7 +64,11 @@ public class Boid {
 		
 		this.velocity = velocity;
 	}
-
+	/**
+	 * Set the position of the boid.
+	 * 
+	 * @param position	A Vector2d object with a grid position
+	 */
 	public void setPosition(Vector2d position) {
 		this.position = position;
 	}

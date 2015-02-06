@@ -1,10 +1,7 @@
 package model;
 
-
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -31,11 +28,17 @@ public class Flock {
 		
 		System.out.println("Flock size: "+boids.size());
     } // end constructor
-    
+
+    /**
+     * Updates the position coordinates of each boid in the flock. By applying the rules that govern 
+     * the behaviour of the group to each one in turn.
+     */
     public void updateBoidsPostion() {
     	Vector2d v1, v2, v3, v4, v5 = new Vector2d();
     	for (Boid cBoid : boids) {
 			System.out.print("Current boid: "+cBoid.getName()+" | ");
+			
+
 		v1 = groupFlock(cBoid);
 		v2 = collisionAvoidance(cBoid);
 		v3 = matchFlockVelocity(cBoid);
@@ -52,20 +55,27 @@ public class Flock {
 		cBoid.setVelocity(cBoid.getVelocity().add(sum));	
 		cBoid.setPosition(cBoid.getPosition().add(cBoid.getVelocity()));
 			
-		System.out.print("v1: "+v1.xPos+","+v1.yPos+" | ");
-		System.out.print("v2: "+v2.xPos+","+v2.yPos+" | ");
+		//System.out.print("v1: "+v1.xPos+","+v1.yPos+" | ");
+		//System.out.print("v2: "+v2.xPos+","+v2.yPos+" | ");
 		//System.out.print("v3: "+v3.xPos+","+v3.yPos+" | ");
 		//System.out.print("v4: "+v4.xPos+","+v4.yPos+" | ");
 		//System.out.print("v4: "+v5.xPos+","+v5.yPos+" | ");
 		//System.out.print("v5: "+v5.xPos+","+v5.yPos+" | ");
-		System.out.print("sum: "+sum.xPos+","+sum.yPos+" | ");
-		System.out.println("");
+		//System.out.print("sum: "+sum.xPos+","+sum.yPos+" | ");
+		//System.out.println("");
 
 	}//end iteration through flock
     }
 	
     /**
-     * Rule 1: Adjust the position of each boid so they fly towards the centre of the group or average position of the flock. Not including the boid itself.
+     * Rule 1: Groups the boids together
+     * 
+     * Returns a vector representing the boids perceived centre of the group (Average position of all boids not including the boid itself).
+     * A movement factor is applied to move the boid a percentage of the way towards the center.   
+     * 
+     * @param	cBoid	The boid which the rule is applied to
+     * @return Vector	Grid position moving the boid towards the center of the group
+     * 
      */
     private Vector2d groupFlock(Boid cBoid) {
     	Vector2d center = new Vector2d();
@@ -83,7 +93,14 @@ public class Flock {
     }
 
     /**
-     * Rule 2: Check to see if the boid is within a specified distance of other objects. If so move it as far away again as it already is.
+     * Rule 2: Collision Avoidance
+     * 
+     *  Checks to see if the boid is within a specified distance of other boids by comparing the position coordinates of each. If the flock mate 
+     *  is inside the minimum distance,  the vector is updated to move the boid further away by half of the current distance between the two.
+     *  
+     * 	@param	cBoid	The boid which the rule is applied to
+     *  @return	Vector	Grid coordinates of a position that would take the boid away from each flock mate that is too close. 
+     *  
      */
     private Vector2d collisionAvoidance(Boid cBoid) {
     	Vector2d correction = new Vector2d();
@@ -105,7 +122,12 @@ public class Flock {
     }
     
     /**
-     * Rule 3: Set the velocity of the boid to the average of the flock.
+     * Rule 3: Match flock velocity
+     * 
+     * Returns a vector representing the boids perceived average velocity of the flock, not including the boid itself. 
+     * 
+     * @param	cBoid	The boid which the rule is applied to
+     *  @return	Vector	Perceived velocity of the flock as a group 
      */
     private Vector2d matchFlockVelocity(Boid cBoid) {
     	Vector2d perceivedVelocity = new Vector2d();
@@ -124,24 +146,26 @@ public class Flock {
     /**
      * Rule 4: Bounding the position.
      * 
-     * Encourages each boid to stay on screen.
+     * Encourages the boid to remain in the view frame. 
+     * 
+     * 	@param	cBoid	The boid which the rule is applied to 
+     * 	@return	Vector	A grid position moving the boid towards the view frame.
      */
     private Vector2d bounding(Boid cBoid) {
-    	//TODO
     	Vector2d bound = new Vector2d();
     	int xMin = 0, xMax = 1200, yMin = 0, yMax = 900;
 
     	Vector2d cPos = cBoid.getPosition();
 
 		if (cPos.xPos < xMin) {
-			 bound.xPos += 1;
+			 bound.xPos += 10;
 		} else if (cPos.xPos > xMax){
-			bound.xPos += -1;
+			bound.xPos += -10;
 		}
 		if (cPos.yPos < yMin) {
-			 bound.yPos += 1;
+			 bound.yPos += 10;
 		} else if (cPos.yPos > yMax){
-			bound.yPos += -1;
+			bound.yPos += -10;
 		}
     	return bound;
     }
@@ -149,22 +173,22 @@ public class Flock {
     /**
      * Rule 5: Tend towards Position
      * 
-     * Acting as a goal setting provides predictable behaviour of the group.
+     * Draws the boids towards points of attraction. Acts as a goal for boids helping to provide more predictable group behaviour.
      * 
-     * @param cBoid
-     * @return
+     * @param cBoid	The boid which the rule is applied to
+     * @return	Vector	A grid position moving the boid towards points of attraction
      */
     private Vector2d positionTend(Boid cBoid) {
-        Vector2d place = new Vector2d(600,450);
+        Vector2d place = new Vector2d(600,450);	//Sample coordinates in the centre of the screen
     	Vector2d tend = new Vector2d();
 		
 		tend = new Vector2d(place.subtract(cBoid.getPosition()));
-		tend.division(100);
+		tend.division(100);		//Movement factor moving the boid a percentage of the distance to the attration point
 
 		return tend;
     }
     /**
-     * Paint each boid comprising the flock on screen.
+     * Paint each boid comprising the flock the canvas.
      * @param g
      */
     public void drawBoids(GraphicsContext g) {
